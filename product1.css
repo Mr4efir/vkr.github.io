@@ -16,7 +16,17 @@ body {
 .cart-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
+}
+
+.cart-item span {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.cart-item button {
+    margin-left: 5px;
 }
 
 .product {
