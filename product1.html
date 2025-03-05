@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="responsive.css">
     <link rel="stylesheet" href="product1.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        .product, .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        #cart {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <!-- Шапка сайта -->
@@ -24,52 +34,66 @@
                 <ul>
                     <li><a href="/">Главная</a></li>
                     <li><a href="/catalog">Каталог товаров</a></li>
-                    <li><a href="/about">О компании</a></li>
-                    <li><a href="/contacts">Контакты</a></li>
+                    <li><a href="#">Корзина</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Основной контент -->
+    <!-- Основное содержимое страницы -->
     <main>
-        <div class="container">
-            <div class="product-detail">
-                <h1>Товар 1</h1>
-                <div class="product-info">
-                    <div class="product-image">
-                        <img src="images/product1.jpg" alt="Товар 1">
-                    </div>
-                    <div class="product-description">
-                        <p>Внешний аккумулятор | Power bank Remax RPP-183 30000 mAh.</p>
-                        <br><br>
-                            <li> Внешний аккумулятор | Power bank Remax RPP-183 30000 mAh доступен к покупке по низкой цене со склада в Москве с доставкой по всей России и СНГ.
-
-Внешний аккумулятор – устройство автономной подачи тока, портативная литий-ионная батарейка, с помощью которой можно заряжать мобильные устройства вроде смартфона, планшета или ноутбука.
-</li>
-                            <p>Принцип работы</p> 
-<li>Портативный аккумулятор обычно делают из металла или пластика. Внутри располагаются литий-ионные батарейки высокой емкости, которые и подают ток, когда вам нужно зарядить устройство. Сам аккумулятор заряжается посредством подключения к сети или USB-компьютера через разъем microUSB. Есть также разъем USB, чтобы подключить зарядку для устройств (смартфон, планшет).
-
-Часто устройство оснащено несколькими портами, чтобы можно было одновременно подзарядить несколько устройств. Емкость измеряется в мАч – миллиампер час.</li>
-                            <li>Характеристики: 
-                              Сезонность: Всесезонный
-Пол: Унисекс
-Мощность: 5V, 9V, 12V
-Энергия: 111 Wh</li>
-                        </ul>
-                        <p class="price">Цена: 1500 руб.</p>
-                        <a href="#" class="btn">Добавить в корзину</a>
-                    </div>
-                </div>
-            </div>
+        <div class="product" data-id="1">
+            <span>Товар 1</span>
+            <button onclick="addToCart(1)">Добавить в корзину</button>
         </div>
     </main>
 
-    <!-- Подвал сайта -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Super-Opt. Все права защищены.</p>
-        </div>
-    </footer>
+    <!-- Корзина -->
+    <h2>Корзина</h2>
+    <div id="cart"></div>
+
+    <script>
+        // Массив для хранения товаров в корзине
+        let cart = [];
+
+        // Функция для добавления товара в корзину
+        function addToCart(productId) {
+            // Проверяем, есть ли уже товар в корзине
+            const existingProduct = cart.find(item => item.id === productId);
+
+            if (existingProduct) {
+                // Если товар уже в корзине, увеличиваем количество
+                existingProduct.quantity += 1;
+            } else {
+                // Если товара нет в корзине, добавляем его с количеством 1
+                cart.push({ id: productId, quantity: 1 });
+            }
+
+            // Обновляем отображение корзины
+            updateCartDisplay();
+        }
+
+        // Функция для удаления товара из корзины
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartDisplay();
+        }
+
+        // Функция для обновления отображения корзины
+        function updateCartDisplay() {
+            const cartDiv = document.getElementById('cart');
+            cartDiv.innerHTML = '';
+
+            cart.forEach(item => {
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('cart-item');
+                productDiv.innerHTML = `
+                    <span>Товар ${item.id} (Количество: ${item.quantity})</span>
+                    <button onclick="removeFromCart(${item.id})">Удалить</button>
+                `;
+                cartDiv.appendChild(productDiv);
+            });
+        }
+    </script>
 </body>
 </html>
