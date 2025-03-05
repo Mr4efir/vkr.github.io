@@ -3,18 +3,14 @@ let cart = [];
 
 // Функция для добавления товара в корзину
 function addToCart(productId) {
-    // Проверяем, есть ли уже товар в корзине
     const existingProduct = cart.find(item => item.id === productId);
 
     if (existingProduct) {
-        // Если товар уже в корзине, увеличиваем количество
         existingProduct.quantity += 1;
     } else {
-        // Если товара нет в корзине, добавляем его с количеством 1
         cart.push({ id: productId, quantity: 1 });
     }
 
-    // Обновляем отображение корзины
     updateCartDisplay();
 }
 
@@ -22,6 +18,26 @@ function addToCart(productId) {
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
     updateCartDisplay();
+}
+
+// Функция для увеличения количества товара
+function increaseQuantity(productId) {
+    const product = cart.find(item => item.id === productId);
+    if (product) {
+        product.quantity += 1;
+        updateCartDisplay();
+    }
+}
+
+// Функция для уменьшения количества товара
+function decreaseQuantity(productId) {
+    const product = cart.find(item => item.id === productId);
+    if (product && product.quantity > 1) {
+        product.quantity -= 1;
+        updateCartDisplay();
+    } else if (product) {
+        removeFromCart(productId);
+    }
 }
 
 // Функция для обновления отображения корзины
@@ -33,8 +49,13 @@ function updateCartDisplay() {
         const productDiv = document.createElement('div');
         productDiv.classList.add('cart-item');
         productDiv.innerHTML = `
-            <span>Товар ${item.id} (Количество: ${item.quantity})</span>
-            <button onclick="removeFromCart(${item.id})">Удалить</button>
+            <span>Товар ${item.id}</span>
+            <div>
+                <button onclick="decreaseQuantity(${item.id})">-</button>
+                <span>${item.quantity}</span>
+                <button onclick="increaseQuantity(${item.id})">+</button>
+                <button onclick="removeFromCart(${item.id})">Удалить</button>
+            </div>
         `;
         cartDiv.appendChild(productDiv);
     });
