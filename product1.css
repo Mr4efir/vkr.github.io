@@ -1,28 +1,22 @@
 body {
-    display: flex;
+    position: relative;
 }
 
 #cart-container {
-    width: 300px;
     position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
+    top: 20px;
+    right: 20px;
+    width: 300px;
     background-color: #f4f4f4;
     padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
 .cart-item {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-}
-
-main {
-    margin-left: 320px;
-    padding: 20px;
-    width: calc(100% - 320px);
 }
 
 .product {
